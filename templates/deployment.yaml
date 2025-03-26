@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "heimdall.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "heimdall.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "heimdall.name" . }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: heimdall-data
+          mountPath: /config
+      volumes:
+      - name: heimdall-data
+        persistentVolumeClaim:
+          claimName: {{ include "heimdall.fullname" . }}

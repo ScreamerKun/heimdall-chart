@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: linuxserver/heimdall
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+resources: {}
